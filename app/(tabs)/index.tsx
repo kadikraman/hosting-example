@@ -1,58 +1,70 @@
-import { Image, StyleSheet, Platform } from "react-native";
+import { StyleSheet, Pressable } from "react-native";
 
-import { HelloWave } from "@/components/HelloWave";
 import ParallaxScrollView from "@/components/ParallaxScrollView";
 import { ThemedText } from "@/components/ThemedText";
 import { ThemedView } from "@/components/ThemedView";
+import { IconSymbol } from "@/components/ui/IconSymbol";
 
 export default function HomeScreen() {
+  const fetchGreeting = async () => {
+    const response = await fetch("/api/greeting");
+    const data = await response.json();
+    alert(data.greeting);
+  };
+
+  const postGreeting = async () => {
+    const response = await fetch("/api/greeting?name=Kadi", { method: "POST" });
+    const data = await response.json();
+    alert(data.greeting);
+  };
+
+  const postGraphql = async () => {
+    const response = await fetch("/api/graphql", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        query: "{ greeting }",
+      }),
+    });
+    const data = await response.json();
+
+    alert(data.data.greeting);
+  };
+
   return (
     <ParallaxScrollView
-      headerBackgroundColor={{ light: "#A1CEDC", dark: "#1D3D47" }}
+      headerBackgroundColor={{ light: "#A1D6B2", dark: "#1E3A34" }}
       headerImage={
-        <Image
-          source={require("@/assets/images/partial-react-logo.png")}
-          style={styles.reactLogo}
+        <IconSymbol
+          size={180}
+          color="#0a7ea4"
+          name="shippingbox.fill"
+          style={styles.icon}
         />
       }
     >
       <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Hello!</ThemedText>
-        <HelloWave />
+        <ThemedText type="title">Hosting example</ThemedText>
       </ThemedView>
       <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit{" "}
-          <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText>{" "}
-          to see changes. Press{" "}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: "cmd + d",
-              android: "cmd + m",
-              web: "F12",
-            })}
-          </ThemedText>{" "}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this
-          starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{" "}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText>{" "}
-          to get a fresh <ThemedText type="defaultSemiBold">app</ThemedText>{" "}
-          directory. This will move the current{" "}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{" "}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
+        <ThemedText type="subtitle">Open an API route</ThemedText>
+        <Pressable onPress={fetchGreeting}>
+          <ThemedText style={{ textDecorationLine: "underline" }}>
+            GET /api/greeting
+          </ThemedText>
+        </Pressable>
+        <Pressable onPress={postGreeting}>
+          <ThemedText style={{ textDecorationLine: "underline" }}>
+            POST /api/greeting
+          </ThemedText>
+        </Pressable>
+        <Pressable onPress={postGraphql}>
+          <ThemedText style={{ textDecorationLine: "underline" }}>
+            POST /api/graphql
+          </ThemedText>
+        </Pressable>
       </ThemedView>
     </ParallaxScrollView>
   );
@@ -68,9 +80,7 @@ const styles = StyleSheet.create({
     gap: 8,
     marginBottom: 8,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
+  icon: {
     bottom: 0,
     left: 0,
     position: "absolute",
