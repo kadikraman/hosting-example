@@ -1,4 +1,5 @@
 export function GET() {
+  console.log("About to greet!");
   return Response.json({
     greeting: "Hello from an API route",
   });
