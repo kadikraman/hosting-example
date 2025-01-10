@@ -66,6 +66,13 @@ export default function HomeScreen() {
           </ThemedText>
         </Pressable>
       </ThemedView>
+      <ThemedView style={styles.stepContainer}>
+        <ThemedText type="subtitle">Inspect environment variables</ThemedText>
+        <ThemedText>MY_VALUE: {process.env.MY_VALUE}</ThemedText>
+        <ThemedText>
+          EXPO_PUBLIC_VALUE: {process.env.EXPO_PUBLIC_VALUE}
+        </ThemedText>
+      </ThemedView>
     </ParallaxScrollView>
   );
 }
