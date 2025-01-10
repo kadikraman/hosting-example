@@ -1,6 +1,7 @@
 module.exports = () => ({
   expo: {
     name: "hosting-example",
+    owner: "expo-priority",
     slug: "hosting-example",
     version: "1.0.0",
     orientation: "portrait",
